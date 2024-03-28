@@ -1,0 +1,75 @@
+{% extends "shop/base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <ul class="list-group" id="item-list">
+            <h3 class="text-center">Voici la liste de vos produits:</h3>
+        </ul>
+    </div>
+</div>    
+    <div class="row">
+        <div class="col-md-12">
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="inputEmail4">Noms</label>
+                    <input type="text" id="nom" name="nom" class="form-control" id="inputEmail4" placeholder="Raham">
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="inputPassword4">Email</label>
+                    <input type="email"  id="email" name="email" class="form-control" id="inputPassword4" placeholder="arafatmoluh@gmail.com">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="inputAddress">Adresse</label>
+                  <input type="text" id="adresse" name="adresse" class="form-control" id="inputAddress" placeholder="1234 Main St">
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="inputCity">Ville</label>
+                    <input type="text" id="ville" name="ville" class="form-control" id="inputCity">
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label for="inputState">Pays</label>
+                    <select id="pays" name="pays" class="form-control">
+                      <option selected>Cameroun</option>
+                      <option>Gabon</option>
+                      <option>Congo</option>
+                      <option>Tchad</option>
+                      <option>Gabon</option>
+                      <option>Bénin</option>
+                    </select>
+                  </div>
+                  <div class="form-group col-md-2">
+                    <label for="inputZip">Zip</label>
+                    <input name="zipcode" id="zipcode" type="text" class="form-control" id="inputZip">
+                  </div>
+                </div>
+                <div class="form-group">             
+                <button type="submit" class="btn btn-primary">Commander</button>
+            </form>
+        </div>
+    </div>
+
+{% endblock %}
+{% block js %}
+    <script type="text/javascript">
+        if(localStorage.getItem('panier') == null){
+            var panier = {};
+        }else{
+            panier = JSON.parse(localStorage.getItem('panier'));
+        }
+        for(item in panier){
+            let nom = panier[item][1];
+            let quantite = panier[item][0];
+            let itemString = ` <li class="list-group-item d-flex justify-content-between align-items-center">
+                ${nom}
+                <span class="badge badge-primary badge-pill">QTE ${quantite}</span>
+            </li>`
+            $('#item-list').append(itemString);
+        }
+     
+    </script>
+{% endblock js %}
