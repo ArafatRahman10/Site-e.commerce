@@ -10,8 +10,9 @@
 </div>    
     <div class="row">
         <div class="col-md-12">
-            <form method="post">
+            <form method="POST">
                 {% csrf_token %}
+                <input type="hidden" id="items", name="items">
                 <div class="form-row">
                   <div class="form-group col-md-6">
                     <label for="inputEmail4">Noms</label>
@@ -24,7 +25,7 @@
                 </div>
                 <div class="form-group">
                   <label for="inputAddress">Adresse</label>
-                  <input type="text" id="adresse" name="adresse" class="form-control" id="inputAddress" placeholder="1234 Main St">
+                  <input type="text" id="address" name="address" class="form-control" id="inputAddress" placeholder="">
                 </div>
                 <div class="form-row">
                   <div class="form-group col-md-6">
@@ -44,14 +45,46 @@
                   </div>
                   <div class="form-group col-md-2">
                     <label for="inputZip">Zip</label>
-                    <input name="zipcode" id="zipcode" type="text" class="form-control" id="inputZip">
+                    <input name="zipcode" id="zipcode" type="text" class="form-control">
                   </div>
+                </div>
+                <div class="form-group col-md-2">
+                  <label for="inputZip">Somme à payer</label>
+                  <input name="total" id="total" type="readonly" class=" bg-dark text-warning form-control">
                 </div>
                 <div class="form-group">             
                 <button type="submit" class="btn btn-primary">Commander</button>
             </form>
         </div>
     </div>
+  </div>
+  </br>
+  <footer class="">
+      <div class="row mx-0">
+          <div class="col-12 text-center" >
+              <p>
+                  @copyright 2024 tous droits reservés
+              </p>
+          </div>
+      </div>
+  </footer>
+  
+  <style>
+      footer{
+          background-color: #1D2121;
+          padding: 15px 8px;
+          height:500px
+      }
+      footer p{
+          color: #FFFFFF;
+          margin-top: 250px;
+      }
+      @media screen and (max-width: 767px) {
+          footer{
+              margin-bottom: 35px;
+          }
+      }
+  </style>
 
 {% endblock %}
 {% block js %}
@@ -61,15 +94,30 @@
         }else{
             panier = JSON.parse(localStorage.getItem('panier'));
         }
+        var total = 0;
+        var nombre = 0;
         for(item in panier){
             let nom = panier[item][1];
             let quantite = panier[item][0];
+            let prix = panier[item][2];
+            nombre += quantite;
+            total += prix; 
             let itemString = ` <li class="list-group-item d-flex justify-content-between align-items-center">
                 ${nom}
-                <span class="badge badge-primary badge-pill">QTE ${quantite}</span>
+                <span class="badge badge-primary badge-pill">QTE: ${quantite}</span>
+                <span class="badge badge-warning badge-pill">$ ${prix}</span>
             </li>`
             $('#item-list').append(itemString);
         }
+        let itemNombre = ` <li class="list-group-item d-flex justify-content-between align-items-center">
+                <b class="bg-danger"> PRIX ET QUANTITE TOTAL</b>  
+                <span class="badge badge-danger badge-pill">TQTE: ${nombre}</span>
+                <span class="badge badge-danger badge-pill">$ ${total}</span>
+            </li>`
+            $('#item-list').append(itemNombre);
+            $('#total').val("$"+total);
+        
+            $('#items').val(JSON.stringify(panier));
      
     </script>
 {% endblock js %}

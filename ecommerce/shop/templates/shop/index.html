@@ -24,7 +24,7 @@
                 <img src="{{ product.image }}" alt="" class="card-ing-top">
                 <div class="card-body">
                     <div id="aa{{ product.id }}" class="card-title">{{ product.title }}</div>
-                    <div style="color:orange" class="card-text">$ {{ product.price }}</div>
+                    <div id="price{{product.id}}" style="color:orange" class="card-text"> {{ product.price }}</div>
                     <a href="{{ product.id }}" class="btn btn-warning">Détail</a>
                     <button id="{{ product.id }}" class="btn tap btn-success">Ajouter</button>
                 </div>
@@ -55,6 +55,33 @@
         </div>
 
     </div>
+    </br>
+    <footer class="">
+        <div class="row mx-0">
+            <div class="col-12 text-center" >
+                <p>
+                    @copyright 2024 tous droits reservés
+                </p>
+            </div>
+        </div>
+    </footer>
+    
+    <style>
+        footer{
+            background-color: #1D2121;
+            padding: 15px 8px;
+            height:500px
+        }
+        footer p{
+            color: #FFFFFF;
+            margin-top: 250px;
+        }
+        @media screen and (max-width: 767px) {
+            footer{
+                margin-bottom: 35px;
+            }
+        }
+    </style>
 
 {% endblock  %} 
 
@@ -72,10 +99,12 @@
             if(panier[item_id] != undefined){
                 quantite = panier[item_id][0] + 1;
                 panier[item_id][0] = quantite;
+                panier[item_id][2] += parseFloat(document.getElementById("price"+item_id).innerHTML);
             }else{
                 quantite = 1;
+                prix = parseFloat(document.getElementById("price"+item_id).innerHTML);
                 nom =  document.getElementById("aa"+item_id).innerHTML;
-                panier[item_id] = [quantite, nom];
+                panier[item_id] = [quantite, nom, prix];
             
             }
             console.log(panier);
