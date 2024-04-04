@@ -15,7 +15,8 @@ class AdminProduct(admin.ModelAdmin):
     list_editable = ('price',)
 
 class AdminCommande(admin.ModelAdmin):
-    list_display = ('items', 'nom', 'email', 'address', 'ville', 'pays', 'total', 'date_commande')
+    list_display = ('items', 'nom', 'email', 'address', 'ville', 'pays', 'phone', 'total', 'date_commande')
+    list_editable = ('nom', 'phone',)
 
 admin.site.register(Product, AdminProduct)
 admin.site.register(Category, AdminCategorie)

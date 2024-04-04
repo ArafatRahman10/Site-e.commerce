@@ -40,7 +40,7 @@ class Commande(models.Model):
     address = models.CharField(max_length=200)
     ville = models.CharField(max_length=200)
     pays = models.CharField(max_length=300)
-    zipcode = models.CharField(max_length=300)
+    phone = models.CharField(max_length=15, null=False, blank=False)
     date_commande = models.DateTimeField(auto_now=True)
 
     class Meta:
